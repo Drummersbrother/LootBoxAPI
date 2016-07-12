@@ -1,7 +1,7 @@
-var rp = require('request-promise');
-var tidy = require('htmltidy2').tidy;
-var cheerio = require('cheerio');
-var Joi = require("joi");
+const rp = require('request-promise');
+const tidy = require('htmltidy2').tidy;
+const cheerio = require('cheerio');
+const Joi = require("joi");
 
 exports.register = function(server, options, next) {
     server.route({
@@ -27,9 +27,9 @@ exports.register = function(server, options, next) {
         },
         handler: function(request, reply) {
             //https://playoverwatch.com/en-us/career/pc/eu/
-            var tag = encodeURIComponent(request.params.tag);
-            var region = encodeURIComponent(request.params.region);
-            var platform = encodeURIComponent(request.params.platform);
+            const tag = encodeURIComponent(request.params.tag);
+            const region = encodeURIComponent(request.params.region);
+            const platform = encodeURIComponent(request.params.platform);
             var url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
 
 
@@ -43,12 +43,12 @@ exports.register = function(server, options, next) {
                     tidy(htmlString, function(err, html) {
 
                         $ = cheerio.load(html);
-                        var id_script = $('script:nth-of-type(10)').text();
-                        var id = id_script.slice(24, 33);
+                        const id_script = $('script:nth-of-type(10)').text();
+                        const id = id_script.slice(24, 33);
 
                         rp('https://playoverwatch.com/en-us/career/get-platforms/' + id)
                             .then(function(htmlString) {
-                                var profile = JSON.parse(htmlString);
+                                const profile = JSON.parse(htmlString);
                                 reply({ profile });
                             });
                         //reply()

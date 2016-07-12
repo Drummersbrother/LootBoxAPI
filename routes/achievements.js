@@ -1,7 +1,7 @@
-var rp = require('request-promise');
-var tidy = require('htmltidy2').tidy;
-var cheerio = require('cheerio');
-var Joi = require("joi");
+const rp = require('request-promise');
+const tidy = require('htmltidy2').tidy;
+const cheerio = require('cheerio');
+const Joi = require("joi");
 
 exports.register = function(server, options, next) {
     server.route({
@@ -21,9 +21,6 @@ exports.register = function(server, options, next) {
                     region: Joi.string()
                         .required()
                         .description('the region the user live is in for example: eu'),
-
-
-
                 }
             },
             description: 'Get the users achievements',
@@ -31,9 +28,9 @@ exports.register = function(server, options, next) {
         },
         handler: function(request, reply) {
             //https://playoverwatch.com/en-us/career/pc/eu/
-            var tag = encodeURIComponent(request.params.tag);
-            var region = encodeURIComponent(request.params.region);
-            var platform = encodeURIComponent(request.params.platform);
+            const tag = encodeURIComponent(request.params.tag);
+            const region = encodeURIComponent(request.params.region);
+            const platform = encodeURIComponent(request.params.platform);
             var url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
 
 
@@ -41,21 +38,20 @@ exports.register = function(server, options, next) {
                 url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + tag;
             }
 
-
             rp(url)
                 .then(function(htmlString) {
                     tidy(htmlString, function(err, html) {
 
-                        $ = cheerio.load(htmlString, { xmlMode: true });
+                        const $ = cheerio.load(htmlString, { xmlMode: true });
                         var achievements = [];
                         var enabledCount = 0;
 
 
                         $('#achievements-section .toggle-display .media-card').each(function(i, el) {
 
-                            var image = $(this).children(".container").children("img").attr("src");
-                            var title = $(this).children(".container").children(".content").html();
-                            var finished = $(this).hasClass('m-disabled');
+                            const image = $(this).children(".container").children("img").attr("src");
+                            const title = $(this).children(".container").children(".content").html();
+                            const finished = $(this).hasClass('m-disabled');
 
                             if (finished == false) {
                                 achievements.push({ name: title, finished: true, image: image });
@@ -64,16 +60,11 @@ exports.register = function(server, options, next) {
                                 achievements.push({ name: title, finished: false, image: image });
                             }
 
-                            //images[i]= image;
                         });
-                        var allAchievements = $('#achievements-section .toggle-display .media-card').length;
-
+                        const allAchievements = $('#achievements-section .toggle-display .media-card').length;
 
                         reply(JSON.stringify({ finishedAchievements: enabledCount + "/" + allAchievements, achievements: achievements }));
-
                     });
-
-
 
                 })
                 .catch(function(err) {

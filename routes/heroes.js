@@ -1,7 +1,7 @@
-var rp = require('request-promise');
-var tidy = require('htmltidy2').tidy;
-var cheerio = require('cheerio');
-var Joi = require("joi");
+const rp = require('request-promise');
+const tidy = require('htmltidy2').tidy;
+const cheerio = require('cheerio');
+const Joi = require("joi");
 
 exports.register = function(server, options, next) {
     server.route({
@@ -31,10 +31,10 @@ exports.register = function(server, options, next) {
         },
         handler: function(request, reply) {
             //https://playoverwatch.com/en-us/career/pc/eu/
-            var tag = encodeURIComponent(request.params.tag);
-            var region = encodeURIComponent(request.params.region);
-            var platform = encodeURIComponent(request.params.platform);
-            var mode = encodeURIComponent(request.params.mode);
+            const tag = encodeURIComponent(request.params.tag);
+            const region = encodeURIComponent(request.params.region);
+            const platform = encodeURIComponent(request.params.platform);
+            const mode = encodeURIComponent(request.params.mode);
 
             var url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
 
@@ -48,32 +48,32 @@ exports.register = function(server, options, next) {
                 .then(function(htmlString) {
                     tidy(htmlString, function(err, html) {
 
-                        $ = cheerio.load(htmlString, { xmlMode: true });
-                        var heroes = [];
-                        var names = [];
-                        var percentage = [];
-                        var images = [];
+                        const $ = cheerio.load(htmlString, { xmlMode: true });
+                        const heroes = [];
+                        const names = [];
+                        const percentage = [];
+                        const images = [];
 
                         $('#'+mode+' .hero-comparison-section .is-active > div img').each(function(i, el) {
-                            var image = $(this).attr("src");
+                            const image = $(this).attr("src");
                             images[i] = image;
                         });
 
 
                         $('#'+mode+' .hero-comparison-section .is-active > div').each(function(i, el) {
-                            var div = $(this).data('overwatchProgressPercent');
+                            const div = $(this).data('overwatchProgressPercent');
                             percentage[i] = div;
                         });
 
 
 
                         $('#'+mode+' .hero-comparison-section .is-active div .bar-text .title').each(function(i, el) {
-                            var name = $(this).html();
+                            const name = $(this).html();
                             names[i] = name;
                         });
 
                         $('#'+mode+' .hero-comparison-section .is-active div .bar-text .description').each(function(i, el) {
-                            var hours = $(this).html();
+                            const hours = $(this).html();
                             heroes.push({ name: names[i], playtime: hours, image: images[i], percentage: percentage[i] });
                         });
 

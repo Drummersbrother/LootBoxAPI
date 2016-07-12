@@ -1,6 +1,6 @@
-var rp = require('request-promise');
-var tidy = require('htmltidy2').tidy;
-var cheerio = require('cheerio');
+const rp = require('request-promise');
+const tidy = require('htmltidy2').tidy;
+const cheerio = require('cheerio');
 
 JSON.fix = function(obj) {
     return obj.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
@@ -34,7 +34,6 @@ exports.register = function(server, options, next) {
                         });*/
                         reply(JSON.parse(json));
                 }).catch(function(err) {
-                    console.log(err)
                     reply({ "statusCode": 404, "error": "error accured"})
                 });;
         }

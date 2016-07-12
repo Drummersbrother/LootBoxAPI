@@ -1,7 +1,7 @@
-var rp = require('request-promise');
-var tidy = require('htmltidy2').tidy;
-var cheerio = require('cheerio');
-var Joi = require("joi");
+const rp = require('request-promise');
+const tidy = require('htmltidy2').tidy;
+const cheerio = require('cheerio');
+const Joi = require("joi");
 
 exports.register = function(server, options, next) {
     server.route({
@@ -33,11 +33,11 @@ exports.register = function(server, options, next) {
         },
         handler: function(request, reply) {
             //https://playoverwatch.com/en-us/career/pc/eu/
-            var tag = encodeURIComponent(request.params.tag);
-            var hero = encodeURIComponent(request.params.hero);
-            var region = encodeURIComponent(request.params.region);
-            var platform = encodeURIComponent(request.params.platform);
-            var mode = encodeURIComponent(request.params.mode);
+            const tag = encodeURIComponent(request.params.tag);
+            const hero = encodeURIComponent(request.params.hero);
+            const region = encodeURIComponent(request.params.region);
+            const platform = encodeURIComponent(request.params.platform);
+            const mode = encodeURIComponent(request.params.mode);
             var url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
             if (platform == "psn" || platform == "xbl" && region == "global") {
                 url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + tag;
@@ -121,13 +121,13 @@ exports.register = function(server, options, next) {
                                 break;
                         }
                         //$('#stats-section div .row .toggle-display:nth-child(' + id + ') div').each(function(i, el) {
-                        var hero_detail = {};
+                        const hero_detail = {};
 
                         $('#'+mode+' .career-stats-section div .row .toggle-display[data-category-id="' + id + '"] div').each(function(i, el) {
-                            //var hero_spefic = $(this).children('div:nth-child(1)').children('div').children('table').children('tbody').children('tr').each(function(i, el) {
+                            //const hero_spefic = $(this).children('div:nth-child(1)').children('div').children('table').children('tbody').children('tr').each(function(i, el) {
                             $('#'+mode+' .career-stats-section div .row .toggle-display[data-category-id="' + id + '"] div:nth-child(' + i + ') .card-stat-block table tbody tr').each(function(i, el) {
-                                var stats_name = $(this).children('td:nth-child(1)').html().replace(/ /g, '')
-                                var stats_value = $(this).children('td:nth-child(2)').html().replace(/ /g, '')
+                                const stats_name = $(this).children('td:nth-child(1)').html().replace(/ /g, '')
+                                const stats_value = $(this).children('td:nth-child(2)').html().replace(/ /g, '')
 
                                 hero_detail[stats_name] = stats_value;
                             });
