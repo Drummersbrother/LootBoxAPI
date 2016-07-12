@@ -1,0 +1,8 @@
+# First, ignore everything
+*
+# Now, whitelist anything that's a directory
+!.gitignore
+!routes/
+!routes/*
+
+!App.js
