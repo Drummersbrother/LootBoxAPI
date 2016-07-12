@@ -31,7 +31,7 @@ exports.register = function(server, options, next) {
             const tag = encodeURIComponent(request.params.tag);
             const region = encodeURIComponent(request.params.region);
             const platform = encodeURIComponent(request.params.platform);
-            var url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
+            let url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
 
 
             if (platform == "psn" || platform == "xbl" && region == "global") {
@@ -43,8 +43,8 @@ exports.register = function(server, options, next) {
                     tidy(htmlString, function(err, html) {
 
                         const $ = cheerio.load(htmlString, { xmlMode: true });
-                        var achievements = [];
-                        var enabledCount = 0;
+                        const achievements = [];
+                        let enabledCount = 0;
 
 
                         $('#achievements-section .toggle-display .media-card').each(function(i, el) {

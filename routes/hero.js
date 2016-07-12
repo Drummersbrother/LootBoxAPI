@@ -38,7 +38,7 @@ exports.register = function(server, options, next) {
             const region = encodeURIComponent(request.params.region);
             const platform = encodeURIComponent(request.params.platform);
             const mode = encodeURIComponent(request.params.mode);
-            var url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
+            let url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
             if (platform == "psn" || platform == "xbl" && region == "global") {
                 url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + tag;
             }
@@ -49,8 +49,8 @@ exports.register = function(server, options, next) {
                     tidy(htmlString, function(err, html) {
 
 
-                        $ = cheerio.load(htmlString, { xmlMode: true });
-                        var id;
+                        const $ = cheerio.load(htmlString, { xmlMode: true });
+                        let id;
                         /*
                    <option value="0x02E0000000000003">Tracer</option><option value="0x02E0000000000004">Mercy</option><option value="0x02E0000000000005">Hanzo</option><option value="0x02E0000000000006">Torbjörn</option><option value="0x02E0000000000007">Reinhardt</option><option value="0x02E0000000000008">Pharah</option><option value="0x02E0000000000009">Winston</option><option value="0x02E000000000000A">Widowmaker</option><option value="0x02E0000000000016">Symmetra</option><option value="0x02E0000000000020">Zenyatta</option><option value="0x02E0000000000029">Genji</option><option value="0x02E0000000000040">Roadhog</option><option value="0x02E0000000000042">McCree</option><option value="0x02E0000000000065">Junkrat</option><option value="0x02E0000000000068">Zarya</option><option value="0x02E0000000000079">Lúcio</option><option value="0x02E000000000007A">D.Va</option><option value="0x02E00000000000DD">Mei</option></select>
                      */

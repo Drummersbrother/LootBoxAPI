@@ -30,7 +30,7 @@ exports.register = function(server, options, next) {
             const tag = encodeURIComponent(request.params.tag);
             const region = encodeURIComponent(request.params.region);
             const platform = encodeURIComponent(request.params.platform);
-            var url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
+            let url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
 
 
             if (platform == "psn" || platform == "xbl" && region == "global") {

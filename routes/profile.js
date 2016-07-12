@@ -31,7 +31,7 @@ exports.register = function(server, options, next) {
             const region = encodeURIComponent(request.params.region);
             const platform = encodeURIComponent(request.params.platform);
 
-            var url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
+            let url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
 
 
             if (platform == "psn" || platform == "xbl" && region == "global") {
@@ -43,37 +43,28 @@ exports.register = function(server, options, next) {
                 .then(function(htmlString) {
                     tidy(htmlString, function(err, html) {
 
-                        $ = cheerio.load(html);
+                        const $ = cheerio.load(html);
                         const username = $('.header-masthead').text();
                         const picture = $('.header-masthead').text();
 
-                        //quick
                         const games_won = {};
                         const games_played = {};
                         const timeplayed = {};
-                        var competitive_rank = undefined;
-                        var competitive_rank_img = undefined;
-
-
+                        const lost = {}
+                        let competitive_rank = undefined;
+                        let competitive_rank_img = undefined;
 
 
                         const quick_games_won_elm = $('#quick-play td:contains("Games Won")').next().html()
                         const quick_games_played_elm = $('#quick-play td:contains("Games Played")').next().html()
                         const quick_timeplayed_elm = $('#quick-play td:contains("Time Played")').next().html()
 
-
                         const comp_games_won_elm = $('#competitive-play td:contains("Games Won")').next().html()
                         const comp_games_played_elm = $('#competitive-play td:contains("Games Played")').next().html()
                         const comp_timeplayed_elm = $('#competitive-play td:contains("Time Played")').next().html()
 
-
-
-
-
                         const competitive_rank_elm = $('.competitive-rank');
 
-
-                        const lost = {}
 
 
                         if (competitive_rank_elm != null) {
@@ -110,18 +101,18 @@ exports.register = function(server, options, next) {
 
 
 
-                        /*var Win_Ratio = games_won / games_played;
-                        var percentage = Math.round((Win_Ratio * 100)).toFixed(1);*/
+                        /*let Win_Ratio = games_won / games_played;
+                        let percentage = Math.round((Win_Ratio * 100)).toFixed(1);*/
 
                         //https://playoverwatch.com/en-us/search/account-by-name/tag
                         rp('https://playoverwatch.com/en-us/search/account-by-name/' + tag)
                             .then(function(htmlString) {
                                 const profiles = JSON.parse(htmlString);
-                                var profile = undefined;
+                                let profile = undefined;
 
 
 
-                                var searchString;
+                                let searchString;
 
                                 if (platform == "pc") {
                                     searchString = "/career/" + platform + "/" + region + "/" + decodeURI(tag);
@@ -130,7 +121,7 @@ exports.register = function(server, options, next) {
                                 }
 
 
-                                for (var i = 0; i < profiles.length; i++) {
+                                for (let i = 0; i < profiles.length; i++) {
                                     if (profiles[i].careerLink == searchString) profile = profiles[i]
                                 }
                                 reply({
