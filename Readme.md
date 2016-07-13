@@ -2,7 +2,7 @@
 An Overwatch API System.
 
 # When will it be opensource?
-We're currently in the middle of packing up our system for an Open-source release, we hope to have it released by 12/07/2016
+We're currently in the middle of packing up all our API related information, this includes but is not Limited to, Node_modules, NodeJS Related pathing, Routes, JS Files, not only our API System, but also our Signature generator/Builder (for those interested)
 
 # About
 LootBox is an overwatch based Clan/Community / Developer community that specialize in Team play for Overwatch, unfortunately due to the lack of API systems for Overwatch & a dire need for one, we have taken it upon ourselves to create one from the playoverwatch.com front-end statistics.
