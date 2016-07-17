@@ -28,7 +28,6 @@ exports.register = function(server, options, next) {
                     hero: Joi.string()
                         .required()
                         .insensitive()
-                        .valid(['eu', 'na', 'kr', 'cn'])
                         .description('the hero you want stats from'),
                     mode: Joi.string()
                         .required()
