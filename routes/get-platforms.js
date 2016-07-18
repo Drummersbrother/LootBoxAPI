@@ -13,12 +13,17 @@ exports.register = function(server, options, next) {
                 params: {
                     tag: Joi.string()
                         .required()
+                        .regex(/[A-z]+\-[0-9]+/)
                         .description('the battle-tag of the user | "#" should be replaced by an "-"'),
                     platform: Joi.string()
                         .required()
+                        .insensitive()
+                        .valid(['pc', 'xbl', 'psn'])
                         .description('the platform that the user use: pc,xbl,psn'),
                     region: Joi.string()
                         .required()
+                        .insensitive()
+                        .valid(['eu', 'na', 'kr', 'cn'])
                         .description('the region the user live is in for example: eu'),
                 }
             },

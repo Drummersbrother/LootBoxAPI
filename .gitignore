@@ -4,6 +4,6 @@
 !.gitignore
 !routes/
 !routes/*
-
+!package.json
 !App.js
 !Readme.md

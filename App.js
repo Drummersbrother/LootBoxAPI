@@ -55,13 +55,6 @@ const manifest = {
         }
     }, {
         plugin: {
-            register: './routes/signature.js'
-        },
-        options: {
-            select: 'api',
-        }
-    }, {
-        plugin: {
             register: './routes/patch_notes.js'
         },
         options: {
