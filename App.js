@@ -102,7 +102,25 @@ const manifest = {
         options: {
             select: 'api',
         }
-    }]
+    }, {
+        plugin: {
+            register: './routes/signature.js'
+        },
+        options: {
+            select: 'api',
+        }
+    }, {
+        plugin: {
+            register: './routes/hero-multiple.js'
+        },
+        options: {
+            select: 'api',
+        }
+    }
+
+
+
+    ]
 };
 const options = {
     relativeTo: __dirname
