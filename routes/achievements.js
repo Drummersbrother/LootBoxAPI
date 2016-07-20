@@ -56,13 +56,14 @@ exports.register = function(server, options, next) {
 
                             const image = $(this).children(".container").children("img").attr("src");
                             const title = $(this).children(".container").children(".content").html();
+                            const achievementDescription = $(this).parent().children("#"+$(this).attr("data-tooltip")).children("p").html();
                             const finished = $(this).hasClass('m-disabled');
 
                             if (finished == false) {
-                                achievements.push({ name: title, finished: true, image: image });
+                                achievements.push({ name: title, finished: true, image: image, description: achievementDescription });
                                 enabledCount++;
                             } else {
-                                achievements.push({ name: title, finished: false, image: image });
+                                achievements.push({ name: title, finished: false, image: image, description: achievementDescription });
                             }
 
                         });
