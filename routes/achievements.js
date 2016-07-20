@@ -68,7 +68,7 @@ exports.register = function(server, options, next) {
                         });
                         const allAchievements = $('#achievements-section .toggle-display .media-card').length;
 
-                        reply(JSON.stringify({ finishedAchievements: enabledCount + "/" + allAchievements, achievements: achievements }));
+                        reply(JSON.stringify({ totalNumberOfAchievements: allAchievements, numberOfAchievementsCompleted: enabledCount, achievements: achievements }));
                     });
 
                 })
