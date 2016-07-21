@@ -57,7 +57,7 @@ exports.register = function(server, options, next) {
                             const image = $(this).children(".container").children("img").attr("src");
                             const title = $(this).children(".container").children(".content").html();
                             const achievementDescription = $(this).parent().children("#"+$(this).attr("data-tooltip")).children("p").html();
-                            const category = $(this).parent().parent().parent().parent().children(".dropdown").children(".dropdown_styled").html();
+                            const category = $(this).parent().parent().parent().parent().parent().children(".js-career-select").children("option[value='"+$(this).parent().parent().parent().attr("data-category-id")+"']").html();
                             const finished = $(this).hasClass('m-disabled');
 
                             if (finished == false) {
@@ -84,5 +84,5 @@ exports.register = function(server, options, next) {
 
 
 exports.register.attributes = {
-    name: 'routes-achievements'
+    name: 'routes-achievements-v2'
 };
