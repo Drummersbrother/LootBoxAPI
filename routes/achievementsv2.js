@@ -6,7 +6,7 @@ const Joi = require("joi");
 exports.register = function(server, options, next) {
     server.route({
         method: 'GET',
-        path: '/{platform}/{region}/{tag}/achievements',
+        path: '/v2/{platform}/{region}/{tag}/achievements',
 
         config: {
             tags: ['api'],
@@ -56,19 +56,21 @@ exports.register = function(server, options, next) {
 
                             const image = $(this).children(".container").children("img").attr("src");
                             const title = $(this).children(".container").children(".content").html();
+                            const achievementDescription = $(this).parent().children("#"+$(this).attr("data-tooltip")).children("p").html();
+                            const category = $(this).parent().parent().parent().parent().children(".dropdown").children(".dropdown_styled").html();
                             const finished = $(this).hasClass('m-disabled');
 
                             if (finished == false) {
-                                achievements.push({ name: title, finished: true, image: image });
+                                achievements.push({ name: title, finished: true, image: image, description: achievementDescription, category: category });
                                 enabledCount++;
                             } else {
-                                achievements.push({ name: title, finished: false, image: image });
+                                achievements.push({ name: title, finished: false, image: image, description: achievementDescription, category: category });
                             }
 
                         });
                         const allAchievements = $('#achievements-section .toggle-display .media-card').length;
 
-                        reply(JSON.stringify({ finishedAchievements: enabledCount + "/" + allAchievements, achievements: achievements }));
+                        reply(JSON.stringify({ totalNumberOfAchievements: allAchievements, numberOfAchievementsCompleted: enabledCount, achievements: achievements }));
                     });
 
                 })
