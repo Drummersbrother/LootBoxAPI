@@ -69,6 +69,13 @@ const manifest = {
         }
     }, {
         plugin: {
+            register: './routes/achievementsv2.js'
+        },
+        options: {
+            select: 'api',
+        }
+    }, {
+        plugin: {
             register: './routes/allHeroes.js'
         },
         options: {
