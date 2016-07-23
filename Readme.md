@@ -1,35 +1,48 @@
-# LootBoxAPI
-An Overwatch API System.
+# [LootBoxAPI](https://lootbox.eu)
+An unofficial Overwatch API System.
 
-# When will it be opensource?
-We're currently in the middle of packing up all our API related information, this includes but is not Limited to, Node_modules, NodeJS Related pathing, Routes, JS Files, not only our API System, but also our Signature generator/Builder (for those interested)
 
-# About
-LootBox is an overwatch based Clan/Community / Developer community that specialize in Team play for Overwatch, unfortunately due to the lack of API systems for Overwatch & a dire need for one, we have taken it upon ourselves to create one from the playoverwatch.com front-end statistics.
+### Installation
+The api requires [Node.js](https://nodejs.org/) v4+ to run.
 
-# Website
-https://lootbox.eu
 
-# ChangeLog
-The Changelog can be found in the root directory under "CHANGELOG.md"
+```sh
+$ git clone https://gitlab.com/SingularityIO/LootBoxAPI.git api
+$ cd api
+$ npm install
+$ node App.js
+```
 
-# Support
+
+
+###  Guides
+[Styleguide] http://hapijs.com/styleguide
+###  Support
 In need of support? We're more than happy to help, you can join us on Discord, Teamspeak3, the Forums or via Skype / Reddit
+* Teamspeak3: ts3.lootbox.eu
+* Discord: https://discord.gg/dRj227b
+* Forums: https://community.lootbox.eu
+* Skype: iwantyourcook1e
+* Reddit: https://www.reddit.com/user/isyxo/
 
-# Support Methods
-Teamspeak3: ts3.lootbox.eu
-Discord: https://discord.gg/dRj227b
-Forums: https://community.lootbox.eu
-Skype: iwantyourcook1e
-Reddit: https://www.reddit.com/user/isyxo/
-
-# Examples
-Examples can be found under /Examples/
+###  Credits
+* TechFreak of LootBox.eu 
+* ISY of LootBox.eu
+* Fuzz for examples of tf2ease.xyz
+* Chris of LootBox.eu
+* Jarva 
 
 
-# Credits
-TechFreak of LootBox.eu 
-ISY of LootBox.eu
-Fuzz for examples of tf2ease.xyz
-Chris of LootBox.eu
- 
+### Changelog
+
+### Todos
+ - Add Code Comments
+
+License
+----
+
+MIT
+
+
+
+

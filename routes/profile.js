@@ -58,6 +58,7 @@ exports.register = function(server, options, next) {
                         const lost = {}
                         let competitive_rank = undefined;
                         let competitive_rank_img = undefined;
+                        let star = "";
 
 
                         const quick_games_won_elm = $('#quick-play td:contains("Games Won")').next().html()
@@ -70,6 +71,9 @@ exports.register = function(server, options, next) {
 
                         const competitive_rank_elm = $('.competitive-rank');
 
+                        const level_frame = $('.player-level').attr("style").slice(21,109); 
+
+                        const star_elm = $('.player-level .player-rank').html();
 
 
                         if (competitive_rank_elm != null) {
@@ -104,6 +108,15 @@ exports.register = function(server, options, next) {
                         }
 
 
+                        if (comp_timeplayed_elm != null) {
+                            timeplayed.comp = comp_timeplayed_elm.trim().replace(/,/g, '');
+                        }
+
+                        if(star_elm != null){
+                            star = $('.player-level .player-rank').attr("style").slice(21,107); 
+                        }
+
+
 
 
                         /*let Win_Ratio = games_won / games_played;
@@ -130,7 +143,7 @@ exports.register = function(server, options, next) {
                                     if (profiles[i].careerLink == searchString) profile = profiles[i]
                                 }
                                 reply({
-                                    data: { username: username, level: profile.level, games: { quick: { wins: games_won.quick, lost: lost.quick, played: games_played.quick }, competitive: { wins: games_won.comp, lost: lost.comp, played: games_played.comp } }, playtime: { quick: timeplayed.quick, competitive: timeplayed.comp }, avatar: profile.portrait, competitive: { rank: competitive_rank, rank_img: competitive_rank_img } }
+                                    data: { username: username, level: profile.level, games: { quick: { wins: games_won.quick, lost: lost.quick, played: games_played.quick }, competitive: { wins: games_won.comp, lost: lost.comp, played: games_played.comp } }, playtime: { quick: timeplayed.quick, competitive: timeplayed.comp }, avatar: profile.portrait, competitive: { rank: competitive_rank, rank_img: competitive_rank_img }, levelFrame:level_frame, star:star }
                                 });
 
                             })

@@ -18,7 +18,7 @@ server.connection({
 const manifest = {
     connections: [{
         host: 'localhost',
-        port: 9001,
+        port: 9000,
         labels: ['api'],
         routes: {
             cors: true
@@ -69,13 +69,6 @@ const manifest = {
         }
     }, {
         plugin: {
-            register: './routes/achievementsv2.js'
-        },
-        options: {
-            select: 'api',
-        }
-    }, {
-        plugin: {
             register: './routes/allHeroes.js'
         },
         options: {
@@ -105,20 +98,6 @@ const manifest = {
     }, {
         plugin: {
             register: './routes/get-platforms.js'
-        },
-        options: {
-            select: 'api',
-        }
-    }, {
-        plugin: {
-            register: './routes/signature.js'
-        },
-        options: {
-            select: 'api',
-        }
-    }, {
-        plugin: {
-            register: './routes/hero-multiple.js'
         },
         options: {
             select: 'api',
