@@ -46,7 +46,7 @@ const manifest = {
                 schemes: ['https'],
                 info: {
                     'title': 'Unofficial Overwatch API',
-                    'version': '0.5',
+                    'version': '0.6',
                 },
             }
         },
@@ -118,6 +118,13 @@ Glue.compose(manifest, options, (err, server) => {
         console.log(err)
         throw err;
     }
+    server.route({ method: 'GET', path: '/favicon.ico', handler: { file: 'favicon.ico' }, config: { cache: { expiresIn: 86400000 } } })
+
+    console.log('\x1b[36m',"╔══════════════════════════════════════════╗",'\x1b[0m');
+    console.log('\x1b[36m',"║ LootBox Api - An unoffical Overwatch Api ║",'\x1b[0m');
+    console.log('\x1b[36m',"║                                          ║",'\x1b[0m');
+    console.log('\x1b[36m',"║                                          ║",'\x1b[0m');
+    console.log('\x1b[36m',"╚══════════════════════════════════════════╝",'\x1b[0m');
     server.start(() => {
 
     });
