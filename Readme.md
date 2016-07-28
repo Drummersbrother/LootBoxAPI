@@ -19,7 +19,7 @@ If you like our project and want to support us feel free to donate us. So that o
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3SVVKGLWXRQFY)
 
 ###  Guides
-[Styleguide] http://hapijs.com/styleguide
+[Styleguide](http://hapijs.com/styleguide)
 ###  Support
 In need of support? We're more than happy to help, you can join us on Discord, Teamspeak3, the Forums or via Skype / Reddit
 * Teamspeak3: ts3.lootbox.eu
