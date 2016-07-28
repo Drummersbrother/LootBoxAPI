@@ -44,7 +44,7 @@ In need of support? We're more than happy to help, you can join us on Discord, T
 License
 ----
 
-MIT (https://gitlab.com/SingularityIO/LootBoxAPI/blob/master/LICENSE)
+[MIT](https://gitlab.com/SingularityIO/LootBoxAPI/blob/master/LICENSE)
 
 
 
