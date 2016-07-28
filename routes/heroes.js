@@ -24,7 +24,7 @@ exports.register = function(server, options, next) {
                     region: Joi.string()
                         .required()
                         .insensitive()
-                        .valid(['eu', 'us', 'kr', 'cn'])
+                        .valid(['eu', 'us', 'kr', 'cn','global'])
                         .description('the region the user live is in for example: eu'),
                     mode: Joi.string()
                         .required()
