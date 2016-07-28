@@ -13,7 +13,7 @@ exports.register = function(server, options, next) {
                 params: {
                     tag: Joi.string()
                         .required()
-                        .regex(/[A-z]+\-[0-9]+/)
+                        //.regex(/[A-z]+\-[0-9]+/)
                         .description('the battle-tag of the user | "#" should be replaced by an "-"'),
                     platform: Joi.string()
                         .required()
