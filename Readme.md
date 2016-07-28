@@ -14,7 +14,7 @@ $ node App.js
 ```
 
 ###  Donate
-
+If you like our project and want to support us feel free to donate us so that our server costs get reduced 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3SVVKGLWXRQFY)
 
 ###  Guides
