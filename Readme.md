@@ -3,7 +3,7 @@ An unofficial Overwatch API System.
 
 
 ### Installation
-The api requires [Node.js](https://nodejs.org/) v4+ to run.
+The api requires [Node.js](https://nodejs.org/)  v4+ and [mongodb](https://docs.mongodb.com/)  to run.
 
 
 ```sh

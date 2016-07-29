@@ -1,12 +1,31 @@
 const rp = require('request-promise');
-const tidy = require('htmltidy2').tidy;
 const cheerio = require('cheerio');
 
-JSON.fix = function(obj) {
-    return obj.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
-};
+
+
+const getPatchNotes = function(next) {
+    rp('https://cache-eu.battle.net/system/cms/oauth/api/patchnote/list?program=pro&region=US&locale=enUS&type=RETAIL&page=1&pageSize=5&orderBy=buildNumber&buildNumberMin=0')
+        .then(function(json) {
+
+            return next(null, JSON.parse(json));
+        }).catch(function(err) {
+            return next(null, { "statusCode": 404, "error": "error accured" })
+        });;
+}
+
 
 exports.register = function(server, options, next) {
+
+    server.method('getPatchNotes', getPatchNotes, {
+        cache: {
+            cache: 'mongo',
+            expiresIn: 6 * 10000, // 10 minutes
+            generateTimeout: 40000,
+            staleTimeout: 10000,
+            staleIn: 20000,
+
+        }
+    });
 
     server.route({
         method: 'GET',
@@ -18,24 +37,14 @@ exports.register = function(server, options, next) {
             notes: " ",
         },
         handler: function(request, reply) {
-            //https://playoverwatch.com/en-us/career/pc/eu/
-            //https://cache-eu.battle.net/system/cms/oauth/api/patchnote/list?program=pro&region=EU&locale=deDE&type=RETAIL&page=1&pageSize=5&orderBy=buildNumber&buildNumberMin=0&buildNumberMax=
-            //
-            rp('https://cache-eu.battle.net/system/cms/oauth/api/patchnote/list?program=pro&region=US&locale=enUS&type=RETAIL&page=1&pageSize=5&orderBy=buildNumber&buildNumberMin=0')
-                .then(function(json) {
 
-                        //$ = cheerio.load(htmlString, { xmlMode: true });
-                       //var json = JSON.parse(htmlString);
-                        /*
-                        $('.Search-content > .Post--searchPage').each(function(i, el) {
-                            var title = $(this).children('a').children('div').children('div').children('.Post-body--topicTitle').html();
-                            var text = $(this).children('a').children('div').children('div').children('.Post-body--postContent').html();
-                            content.push({ title: title, text: text });
-                        });*/
-                        reply(JSON.parse(json));
-                }).catch(function(err) {
-                    reply({ "statusCode": 404, "error": "error accured"})
-                });;
+            server.methods.getPatchNotes((err, result) => {
+                if (err) {
+                    return reply(err);
+                }
+
+                reply(result);
+            });
         }
     });
 

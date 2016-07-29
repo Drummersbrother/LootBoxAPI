@@ -1,9 +1,56 @@
 const rp = require('request-promise');
-const tidy = require('htmltidy2').tidy;
 const cheerio = require('cheerio');
 const Joi = require("joi");
 
+
+const getallHeroes = function(tag, region, platform, mode, next) {
+    let url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
+
+
+    if (platform == "psn" || platform == "xbl" && region == "global") {
+        url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + tag;
+    }
+
+    let obj = {};
+
+    rp(url)
+        .then(function(htmlString) {
+
+            const $ = cheerio.load(htmlString, { xmlMode: true });
+//#quick-play > section.content-box.max-width-container.career-stats-section > div > div.row.gutter-18\40 md.spacer-12.spacer-18\40 md.js-stats.toggle-display.is-active
+            $('#' + mode + ' .career-stats-section div .row[data-category-id="0x02E00000FFFFFFFF"] div').each(function(i, el) {
+
+                $('#' + mode + ' .career-stats-section div .row[data-category-id="0x02E00000FFFFFFFF"] div:nth-child(' + i + ') .card-stat-block table tbody tr').each(function(i, el) {
+
+                    const stats_name = $(this).children('td:nth-child(1)').html().replace(/ /g, '');
+                    const stats_value = $(this).children('td:nth-child(2)').html().replace(/ /g, '');
+
+                    obj[stats_name] = stats_value;
+
+                });
+            });
+            return next(null,obj)
+        }).catch(function(err) {
+            return next(null, { "statusCode": 404, "error": "Found no user with the BattleTag: " + tag })
+        });
+    //return next(null, obj);
+
+}
+
+
+
 exports.register = function(server, options, next) {
+    server.method('getallHeroes', getallHeroes, {
+        /*cache: {
+            cache: 'mongo',
+            expiresIn: 6 * 10000, // 10 minutes
+            generateTimeout: 40000,
+            staleTimeout: 10000,
+            staleIn: 20000,
+
+        }*/
+    });
+
     server.route({
         method: 'GET',
         path: '/{platform}/{region}/{tag}/{mode}/allHeroes/',
@@ -23,7 +70,7 @@ exports.register = function(server, options, next) {
                     region: Joi.string()
                         .required()
                         .insensitive()
-                        .valid(['eu', 'us', 'kr', 'cn','global'])
+                        .valid(['eu', 'us', 'kr', 'cn', 'global'])
                         .description('the region the user live is in for example: eu'),
                     mode: Joi.string()
                         .required()
@@ -43,39 +90,15 @@ exports.register = function(server, options, next) {
             const platform = encodeURIComponent(request.params.platform);
             const mode = encodeURIComponent(request.params.mode);
 
-            let url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
 
+            server.methods.getallHeroes(tag, region, platform, mode, (err, result) => {
+                if (err) {
+                    return reply(err);
+                }
 
-            if (platform == "psn" || platform == "xbl" && region == "global") {
-                url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + tag;
-            }
+                reply(result);
+            });
 
-
-            rp(url)
-                .then(function(htmlString) {
-                    tidy(htmlString, function(err, html) {
-
-                        const $ = cheerio.load(htmlString, { xmlMode: true });
-                        const obj = {};
-
-                        $('#'+mode+' .career-stats-section div .row .toggle-display[data-category-id="0x02E00000FFFFFFFF"] div').each(function(i, el) {
-
-                            $('#'+mode+' .career-stats-section div .row .toggle-display[data-category-id="0x02E00000FFFFFFFF"] div:nth-child(' + i + ') .card-stat-block table tbody tr').each(function(i, el) {
-
-                                const stats_name = $(this).children('td:nth-child(1)').html().replace(/ /g, '');
-                                const stats_value = $(this).children('td:nth-child(2)').html().replace(/ /g, '');
-
-                                obj[stats_name] = stats_value;
-
-                            });
-                        });
-
-                        reply(obj);
-
-                    });
-                }).catch(function(err) {
-                    reply({ "statusCode": 404, "error": "Found no user with the BattleTag: " + tag })
-                });
         }
     });
     return next();

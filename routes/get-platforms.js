@@ -1,9 +1,35 @@
 const rp = require('request-promise');
-const tidy = require('htmltidy2').tidy;
 const cheerio = require('cheerio');
 const Joi = require("joi");
 
+
+const getPlatforms = function(tag, next) {
+    rp('https://playoverwatch.com/en-us/career/get-platforms/' + tag)
+                .then(function(htmlString) {
+                    const profile = JSON.parse(htmlString);
+                    return next(null,{ profile });
+                })
+                .catch(function(error) {
+                    return next(null,{ "statusCode": 520, error})
+                });
+}
+
+
 exports.register = function(server, options, next) {
+
+
+    server.method('getPlatforms', getPlatforms, {
+        cache: {
+            cache: 'mongo',
+            expiresIn: 6 * 10000, // 10 minutes
+            generateTimeout: 40000,
+            staleTimeout: 10000,
+            staleIn: 20000,
+
+        }
+    });
+
+
     server.route({
         method: 'GET',
         path: '/{platform}/{region}/{tag}/get-platforms',
@@ -33,14 +59,15 @@ exports.register = function(server, options, next) {
         handler: function(request, reply) {
             //https://playoverwatch.com/en-us/career/pc/eu/
             const tag = encodeURIComponent(request.params.tag);
-            rp('https://playoverwatch.com/en-us/career/get-platforms/' + tag)
-                .then(function(htmlString) {
-                    const profile = JSON.parse(htmlString);
-                    reply({ profile });
-                })
-                .catch(function(error) {
-                    reply({ "statusCode": 520, error})
-                });
+
+            server.methods.getPlatforms(tag, (err, result) => {
+                if (err) {
+                    return reply(err);
+                }
+
+                reply(result);
+            });
+            
         }
     });
     return next();
