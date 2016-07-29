@@ -33,34 +33,13 @@ exports.register = function(server, options, next) {
         handler: function(request, reply) {
             //https://playoverwatch.com/en-us/career/pc/eu/
             const tag = encodeURIComponent(request.params.tag);
-            const region = encodeURIComponent(request.params.region);
-            const platform = encodeURIComponent(request.params.platform);
-            let url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag;
-
-
-            if (platform == "psn" || platform == "xbl" && region == "global") {
-                url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + tag;
-            }
-
-
-            rp(url)
+            rp('https://playoverwatch.com/en-us/career/get-platforms/' + tag)
                 .then(function(htmlString) {
-                    tidy(htmlString, function(err, html) {
-
-                        $ = cheerio.load(html);
-                        const id_script = $('script:nth-of-type(10)').text();
-                        const id = id_script.slice(24, 33);
-
-                        rp('https://playoverwatch.com/en-us/career/get-platforms/' + id)
-                            .then(function(htmlString) {
-                                const profile = JSON.parse(htmlString);
-                                reply({ profile });
-                            });
-                        //reply()
-
-                    })
-                }).catch(function(err) {
-                    reply({ "statusCode": 404, "error": "Found no user with the BattleTag: " + tag })
+                    const profile = JSON.parse(htmlString);
+                    reply({ profile });
+                })
+                .catch(function(error) {
+                    reply({ "statusCode": 520, error})
                 });
         }
     });
