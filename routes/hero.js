@@ -17,8 +17,8 @@ const getHeroes = function(tag, region, platform, mode, heroesStr, next) {
             const heroes_detail = {};
 
             (function() {
-                var heroIds = [];
-                const heroes = heroesStr.split(",");
+                let heroIds = [];
+                const heroes = heroesStr.split("%2C");
                 //  const heroes = ["Reaper","Tracer","Mercy","Hanzo","Torbjoern","Reinhardt","Pharah","Winston","Widowmaker","Bastion","Symmetra","Zenyatta","Genji",
                 //                  "Roadhog","Mccree","Junkrat","Zarya","Soldier76","Lucio","DVa","Mei"];
                 heroes.forEach(hero => {
@@ -139,7 +139,8 @@ exports.register = function(server, options, next) {
             staleTimeout: 10000,
             staleIn: 20000,
 
-        }
+        },
+
     });
 
     server.route({
@@ -184,6 +185,7 @@ exports.register = function(server, options, next) {
             const platform = encodeURIComponent(request.params.platform);
             const mode = encodeURIComponent(request.params.mode);
             const heroes =encodeURIComponent(request.params.heroes);
+
             server.methods.getHeroes(tag, region, platform, mode, heroes, (err, result) => {
                 if (err) {
                     return reply(err);
