@@ -39,7 +39,7 @@ exports.register = function(server, options, next) {
                 params: {
                     tag: Joi.string()
                         .required()
-                        .regex(/^(?:[a-zA-Z\\u00C0-\\u017F0-9]{3,12}-[0-9]{4,},)?(?:[a-zA-Z\\u00C0-\\u017F0-9]{3,12}-[0-9]{4,})$/g)
+                        .regex(/^(?:[a-zA-Z\u00C0-\u017F0-9]{3,12}-[0-9]{4,},)?(?:[a-zA-Z\u00C0-\u017F0-9]{3,12}-[0-9]{4,})$/g)
                         .description('the battle-tag of the user | "#" should be replaced by an "-"'),
                     platform: Joi.string()
                         .required()
@@ -67,7 +67,7 @@ exports.register = function(server, options, next) {
 
                 reply(result);
             });
-            
+
         }
     });
     return next();
