@@ -8,6 +8,6 @@
 !tests/*
 
 !package.json
-!App.js
+!app.js
 !Readme.md
 !favicon.ico
