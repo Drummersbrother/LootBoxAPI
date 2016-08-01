@@ -4,7 +4,10 @@
 !.gitignore
 !routes/
 !routes/*
+!tests/*
+!tests/*
+
 !package.json
-!App.js
+!app.js
 !Readme.md
 !favicon.ico

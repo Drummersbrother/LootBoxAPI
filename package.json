@@ -4,6 +4,11 @@
     "description": "An unofficial API for retrieving Overwatch related stats for individual players",
     "author": "techfreak",
     "license": "MIT",
+    "scripts": {
+        "lint": "standard",
+        "test": "./node_modules/lab/bin/lab -c --ignore 'Reflect'",
+        "start": "node app.js"
+    },
     "repository": {
         "type": "git",
         "url": "git://gitlab.com/SingularityIO/LootBoxAPI.git"
@@ -19,6 +24,11 @@
         "joi": "^9.0.3",
         "request-promise": "^3.0.0",
         "vision": "^4.1.0",
-        "catbox-mongodb":"^3.0.0"
+        "catbox-mongodb": "^3.0.0"
+    },
+    "devDependencies": {
+        "lab": "^6.2.0",
+        "standard": "^7.1.2",
+        "code": "^3.0.2"
     }
 }
