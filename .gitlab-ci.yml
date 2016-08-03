@@ -1,13 +1,8 @@
-image: node:latest
-
-cache:
-  paths:
-  - node_modules/
-
-services:
-  - mongo:latest
-
-all_tests:
+master:
+  type: deploy
   script:
-   - npm install
-   - node App.js
+  - gem install dpl
+  - git config --global push.default matching
+  - dpl --skip_cleanup  --deployment_branch=master --provider=openshift --user=$OPENSHIFT_USERNAME --password=$OPENSHIFT_PASSWORD  --domain=$OPENSHIFT_APPLICATION_DOMAIN --app=$OPENSHIFT_MASTER_APPLICATION_NAME 
+  only:
+  - master

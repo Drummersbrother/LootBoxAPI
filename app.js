@@ -1,19 +1,39 @@
 'use strict'
 
 const Glue = require('glue')
+const env = process.env
+let port
+let host
+let connectionString
+let partition
+if (env.NODE_PORT === undefined) {
+  port = 9000
+  host = 'localhost'
+  connectionString = '127.0.0.1:27017'
+  partition = 'cache'
+} else {
+  port = env.NODE_PORT
+  host = env.NODE_IP
+  partition = env.OPENSHIFT_APP_NAME
+  connectionString = env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
+  env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' +
+  env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+  env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+  env.OPENSHIFT_APP_NAME
+}
 
 const manifest = {
   server: {
     cache: [{
       engine: 'catbox-mongodb',
-      uri: 'mongodb://127.0.0.1:27017',
-      partition: 'cache',
+      uri: 'mongodb://' + connectionString,
+      partition: partition,
       name: 'mongo'
     }]
   },
   connections: [{
-    host: 'localhost',
-    port: 9000,
+    host: host,
+    port: port,
     labels: ['api'],
     routes: {
       cors: true
