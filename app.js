@@ -61,7 +61,7 @@ const manifest = {
         schemes: ['https'],
         info: {
           'title': 'Unofficial Overwatch API',
-          'version': '0.6'
+          'version': '1.0'
         }
       }
     },
