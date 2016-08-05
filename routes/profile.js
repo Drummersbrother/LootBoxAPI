@@ -91,8 +91,8 @@ const getProfile = function (tag, region, platform, next) {
           })
         })
     }).catch(function () {
-      return next(null, { 'statusCode': 404, 'error': 'Found no user with the BattleTag: ' + tag })
-    })
+    return next(null, { 'statusCode': 404, 'error': 'Found no user with the BattleTag: ' + tag })
+  })
 }
 
 exports.register = function (server, options, next) {
@@ -116,7 +116,7 @@ exports.register = function (server, options, next) {
         params: {
           tag: Joi.string()
             .required()
-            .regex(/^(?:[a-zA-Z\u00C0-\u017F0-9]{3,12}-[0-9]{4,},)?(?:[a-zA-Z\u00C0-\u017F0-9]{3,12}-[0-9]{4,})$/g)
+            // .regex(/^(?:[a-zA-Z\u00C0-\u017F0-9]{3,12}-[0-9]{4,},)?(?:[a-zA-Z\u00C0-\u017F0-9]{3,12}-[0-9]{4,})$/g)
             .description('the battle-tag of the user | "#" should be replaced by an "-"'),
           platform: Joi.string()
             .required()
