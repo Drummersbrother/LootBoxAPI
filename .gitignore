@@ -4,10 +4,12 @@
 !.gitignore
 !routes/
 !routes/*
-!tests/*
-!tests/*
+!test/*
+!test/*
 
 !package.json
 !app.js
 !Readme.md
 !favicon.ico
+!docker-compose.yml
+!Dockerfile

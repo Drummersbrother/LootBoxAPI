@@ -1,0 +1,22 @@
+version: '2'
+services:
+  app:
+    build: .
+    ports:
+     - "127.0.0.1:9000:9000"
+    expose:
+     - "9000"
+    links:
+     - db
+    environment:
+    - docker=true
+    stdin_open: true
+    depends_on:
+      - db
+
+  db:
+    image: mvertes/alpine-mongo
+    ports:
+     - "27017:27017"
+    expose:
+     - "27017"

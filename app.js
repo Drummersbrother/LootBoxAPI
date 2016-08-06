@@ -6,11 +6,15 @@ let port
 let host
 let connectionString
 let partition
-if (env.NODE_PORT === undefined) {
+if (env.NODE_PORT === undefined && env.docker === undefined) {
   port = 9000
   host = 'localhost'
   connectionString = '127.0.0.1:27017'
   partition = 'cache'
+} else if (env.docker !== undefined) {
+  port = 9000
+  host = '0.0.0.0'
+  connectionString =  "db"+ ':' + "27017"
 } else {
   port = env.NODE_PORT
   host = env.NODE_IP
