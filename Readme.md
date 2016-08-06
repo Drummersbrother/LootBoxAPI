@@ -11,7 +11,7 @@ The api requires [Node.js](https://nodejs.org/)  v4+ and [mongodb](https://docs.
 $ git clone https://gitlab.com/SingularityIO/LootBoxAPI.git api
 $ cd api
 $ npm install
-$ node App.js
+$ node app.js
 ```
 --------
 ###### Docker
