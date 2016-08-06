@@ -3,7 +3,7 @@ An unofficial Overwatch API System.
 
 
 ### Installation
-##Normal:
+###### Normal
 The api requires [Node.js](https://nodejs.org/)  v4+ and [mongodb](https://docs.mongodb.com/)  to run.
 
 
@@ -13,14 +13,14 @@ $ cd api
 $ npm install
 $ node App.js
 ```
-##Docker:
-Install [Docker Engine](https://docs.docker.com/engine/installation/) and [Docker Compose](https://docs.docker.com/compose/install/) 
+--------
+###### Docker
+Install [Docker Engine](https://docs.docker.com/engine/installation/) and [Docker Compose](https://docs.docker.com/compose/install/).
 ```sh
 $ git clone https://gitlab.com/SingularityIO/LootBoxAPI.git api
 $ cd api
 $ docker-compose up -d
 ```
-
 
 ###  Donate
 If you like our project and want to support us feel free to donate us. So that our server costs get reduced 
