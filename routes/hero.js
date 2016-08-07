@@ -19,6 +19,9 @@ const getHeroes = function (tag, region, platform, mode, heroesStr, next) {
       heroes.forEach(hero => {
         let id
         switch (hero) {
+          case 'Ana':
+            id = '0x02E000000000013B'
+            break
           case 'Reaper':
             id = '0x02E0000000000002'
             break
