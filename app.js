@@ -80,7 +80,6 @@ const manifest = {
         userCache: {
           expiresIn: 60000
         }
-      // ipWhitelist: ['85.176.79.249']
       }
     },
     options: {
