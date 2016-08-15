@@ -14,7 +14,7 @@ if (env.NODE_PORT === undefined && env.docker === undefined) {
 } else if (env.docker !== undefined) {
   port = 9000
   host = '0.0.0.0'
-  connectionString =  "db"+ ':' + "27017"
+  connectionString = 'db' + ':' + '27017'
 } else {
   port = env.NODE_PORT
   host = env.NODE_IP
@@ -67,6 +67,20 @@ const manifest = {
           'title': 'Unofficial Overwatch API',
           'version': '1.0'
         }
+      }
+    },
+    options: {
+      select: 'api'
+    }
+  }, {
+    plugin: {
+      register: 'hapi-rate-limit',
+      // https://github.com/wraithgar/hapi-rate-limit
+      options: {
+        userCache: {
+          expiresIn: 60000
+        }
+      // ipWhitelist: ['85.176.79.249']
       }
     },
     options: {

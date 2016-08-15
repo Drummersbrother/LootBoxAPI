@@ -55,6 +55,11 @@ exports.register = function (server, options, next) {
 
     config: {
       tags: ['api'],
+      plugins: {
+        'hapi-rate-limit': {
+          pathLimit: 50
+        }
+      },
       validate: {
         params: {
           tag: Joi.string()

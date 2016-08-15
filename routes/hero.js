@@ -136,6 +136,11 @@ exports.register = function (server, options, next) {
     path: '/{platform}/{region}/{tag}/{mode}/hero/{heroes}/',
     config: {
       tags: ['api'],
+      plugins: {
+        'hapi-rate-limit': {
+          pathLimit: 50
+        }
+      },
       validate: {
         params: {
           tag: Joi.string()

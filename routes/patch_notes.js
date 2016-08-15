@@ -5,8 +5,8 @@ const getPatchNotes = function (next) {
     .then(function (json) {
       return next(null, JSON.parse(json))
     }).catch(function () {
-      return next(null, { 'statusCode': 404, 'error': 'error accured' })
-    })
+    return next(null, { 'statusCode': 404, 'error': 'error accured' })
+  })
 }
 
 exports.register = function (server, options, next) {
@@ -25,6 +25,11 @@ exports.register = function (server, options, next) {
     path: '/patch_notes',
     config: {
       tags: ['api'],
+      plugins: {
+        'hapi-rate-limit': {
+          pathLimit: 50
+        }
+      },
       cors: true,
       description: 'Get the latest patch informations',
       notes: ' '

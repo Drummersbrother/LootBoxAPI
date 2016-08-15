@@ -29,6 +29,11 @@ exports.register = function (server, options, next) {
     path: '/{platform}/{region}/{tag}/get-platforms',
     config: {
       tags: ['api'],
+      plugins: {
+        'hapi-rate-limit': {
+          pathLimit: 50
+        }
+      },
       validate: {
         params: {
           tag: Joi.string()

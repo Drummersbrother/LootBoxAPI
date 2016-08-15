@@ -110,8 +110,14 @@ exports.register = function (server, options, next) {
   server.route({
     method: 'GET',
     path: '/{platform}/{region}/{tag}/profile',
+
     config: {
       tags: ['api'],
+      plugins: {
+        'hapi-rate-limit': {
+          pathLimit: 50
+        }
+      },
       validate: {
         params: {
           tag: Joi.string()
