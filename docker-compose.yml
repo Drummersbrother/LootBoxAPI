@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-     - "127.0.0.1:9000:9000"
+     - "80:9000"
     expose:
      - "9000"
     links:
