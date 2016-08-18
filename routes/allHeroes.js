@@ -1,45 +1,41 @@
-const rp = require('request-promise')
-const cheerio = require('cheerio')
-const Joi = require('joi')
+const rp = require('request-promise');
+const cheerio = require('cheerio');
+const Joi = require('joi');
 
-const getallHeroes = function (tag, region, platform, mode, next) {
-  let url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag
+const getallHeroes = function (tag, region, platform, mode, next) { // eslint-disable-line
 
-  if (platform === 'psn' || platform === 'xbl' && region === 'global') {
-    url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + tag
+  let url = `https://playoverwatch.com/en-us/career/${platform}/${region}/${tag}`;
+  const obj = {};
+
+  if (platform === 'psn' || platform === 'xbl') {
+    url = `https://playoverwatch.com/en-us/career/${platform}/${region}/${tag}`;
   }
-
-  let obj = {}
-
   rp(url)
-    .then(function (htmlString) {
-      const $ = cheerio.load(htmlString, { xmlMode: true })
-      // #quick-play > section.content-box.max-width-container.career-stats-section > div > div.row.gutter-18\40 md.spacer-12.spacer-18\40 md.js-stats.toggle-display.is-active
-      $('#' + mode + ' .career-stats-section div .row[data-category-id="0x02E00000FFFFFFFF"] div').each(function (i, el) {
-        $('#' + mode + ' .career-stats-section div .row[data-category-id="0x02E00000FFFFFFFF"] div:nth-child(' + i + ') .card-stat-block table tbody tr').each(function (i, el) {
-          const statsName = $(this).children('td:nth-child(1)').html().replace(/ /g, '')
-          const statsValue = $(this).children('td:nth-child(2)').html().replace(/ /g, '')
+    .then((htmlString) => {
+      const $ = cheerio.load(htmlString, { xmlMode: true });
+      $(`#${mode} .career-stats-section div .row[data-category-id="0x02E00000FFFFFFFF"] div`).each((i) => {
+        $(`#${mode} .career-stats-section div .row[data-category-id="0x02E00000FFFFFFFF"] div:nth-child(${i}) .card-stat-block table tbody tr`).each((i2, el) => {
+          const statsName = $(el).children('td:nth-child(1)').html().replace(/ /g, '');
+          const statsValue = $(el).children('td:nth-child(2)').html().replace(/ /g, '');
 
-          obj[statsName] = statsValue
-        })
-      })
-      return next(null, obj)
-    }).catch(function () {
-    return next(null, { 'statusCode': 404, 'error': 'Found no user with the BattleTag: ' + tag })
-  })
-}
+          obj[statsName] = statsValue;
+        });
+      });
+      return next(null, obj);
+    }).catch(() => next(null, { statusCode: 404, error: `Found no user with the BattleTag: ${tag}` }));
+};
 
-exports.register = function (server, options, next) {
+exports.register = function (server, options, next) { // eslint-disable-line
+
   server.method('getallHeroes', getallHeroes, {
-    /* cache: {
-        cache: 'mongo',
-        expiresIn: 6 * 10000, // 10 minutes
-        generateTimeout: 40000,
-        staleTimeout: 10000,
-        staleIn: 20000,
-
-    }*/
-  })
+    cache: {
+      cache: 'mongo',
+      expiresIn: 6 * 10000, // 10 minutes
+      generateTimeout: 40000,
+      staleTimeout: 10000,
+      staleIn: 20000,
+    },
+  });
 
   server.route({
     method: 'GET',
@@ -48,8 +44,8 @@ exports.register = function (server, options, next) {
       tags: ['api'],
       plugins: {
         'hapi-rate-limit': {
-          pathLimit: 50
-        }
+          pathLimit: 50,
+        },
       },
       validate: {
         params: {
@@ -71,30 +67,30 @@ exports.register = function (server, options, next) {
             .required()
             .insensitive()
             .valid(['competitive-play', 'quick-play'])
-            .description('Either competitive-play or quick-play')
-        }
+            .description('Either competitive-play or quick-play'),
+        },
       },
       description: 'Get Stats for a all heroes',
-      notes: 'Api is Case-sensitive !'
+      notes: 'Api is Case-sensitive !',
     },
-    handler: function (request, reply) {
-      const tag = encodeURIComponent(request.params.tag)
-      const region = encodeURIComponent(request.params.region)
-      const platform = encodeURIComponent(request.params.platform)
-      const mode = encodeURIComponent(request.params.mode)
+    handler: (request, reply) => {
+      const tag = encodeURIComponent(request.params.tag);
+      const region = encodeURIComponent(request.params.region);
+      const platform = encodeURIComponent(request.params.platform);
+      const mode = encodeURIComponent(request.params.mode);
 
       server.methods.getallHeroes(tag, region, platform, mode, (err, result) => {
         if (err) {
-          return reply(err)
+          return reply(err);
         }
 
-        reply(result)
-      })
-    }
-  })
-  return next()
-}
+        return reply(result);
+      });
+    },
+  });
+  return next();
+};
 
 exports.register.attributes = {
-  name: 'routes-allHeroes'
-}
+  name: 'routes-allHeroes',
+};

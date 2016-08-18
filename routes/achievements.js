@@ -1,53 +1,50 @@
-const rp = require('request-promise')
-const cheerio = require('cheerio')
-const Joi = require('joi')
+const rp = require('request-promise');
+const cheerio = require('cheerio');
+const Joi = require('joi');
 
-const getAchievements = function (tag, region, platform, next) {
-  let url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + region + '/' + tag
+const getAchievements = function (tag, region, platform, next) { // eslint-disable-line
 
-  if (platform === 'psn' || platform === 'xbl' && region === 'global') {
-    url = 'https://playoverwatch.com/en-us/career/' + platform + '/' + tag
+  let url = `https://playoverwatch.com/en-us/career/${platform}/${region}/${tag}`;
+  if (platform === 'psn' || platform === 'xbl') {
+    url = `https://playoverwatch.com/en-us/career/${platform}/${region}/${tag}`;
   }
 
   rp(url)
-    .then(function (htmlString) {
-      const $ = cheerio.load(htmlString, { xmlMode: true })
-      const achievements = []
-      let enabledCount = 0
+    .then((htmlString) => {
+      const $ = cheerio.load(htmlString, { xmlMode: true });
+      const Achievements = [];
+      let enabledCount = 0;
 
-      $('#achievements-section .toggle-display .media-card').each(function (i, el) {
-        const image = $(this).children('img').attr('src') // media-card-caption
-        const title = $(this).children('.media-card-caption').children('.media-card-title').html()
-        const achievementDescription = $(this).parent().children('#' + $(this).attr('data-tooltip')).children('p').html()
-        const category = $(this).parent().parent().parent().parent().parent().children('.js-career-select').children("option[value='" + $(this).parent().parent().parent().attr('data-category-id') + "']").html()
-        const finished = $(this).hasClass('m-disabled')
-
+      $('#achievements-section .toggle-display .media-card').each((i, el) => {
+        const imageUrl = $(el).children('img').attr('src'); // media-card-caption
+        const title = $(el).children('.media-card-caption').children('.media-card-title').html();
+        const finished = $(el).hasClass('m-disabled');
+        /* eslint-disable  newline-per-chained-call*/
+        const achievementDescription = $(el).parent().children(`#${$(el).attr('data-tooltip')}`).children('p').html();
+        const categoryName = $(el).parent().parent().parent().parent().parent().children('.js-career-select').children(`option[value="${$(el).parent().parent().parent().attr('data-category-id')}"]`).html();
+        /* eslint-enable newline-per-chained-call*/
         if (finished === false) {
-          achievements.push({ name: title, finished: true, image: image, description: achievementDescription, category: category })
-          enabledCount++
+          Achievements.push({ name: title, finished: true, image: imageUrl, description: achievementDescription, category: categoryName });
+          enabledCount++;
         } else {
-          achievements.push({ name: title, finished: false, image: image, description: achievementDescription, category: category })
+          Achievements.push({ name: title, finished: false, image: imageUrl, description: achievementDescription, category: categoryName });
         }
-      })
-      const allAchievements = $('#achievements-section .toggle-display .media-card').length
+      });
+      const allAchievements = $('#achievements-section .toggle-display .media-card').length;
+      return next(null, JSON.stringify({ totalNumberOfAchievements: allAchievements, numberOfAchievementsCompleted: enabledCount, finishedAchievements: `${enabledCount} / ${allAchievements}`, achievements: Achievements }));
+    }).catch(() => next(null, { statusCode: 404, error: `Found no user with the BattleTag: ${tag}` }));
+};
 
-      return next(null, JSON.stringify({ totalNumberOfAchievements: allAchievements, numberOfAchievementsCompleted: enabledCount, finishedAchievements: enabledCount + '/' + allAchievements, achievements: achievements }))
-    }).catch(function () {
-    return next(null, { 'statusCode': 404, 'error': 'Found no user with the BattleTag: ' + tag })
-  })
-}
-
-exports.register = function (server, options, next) {
+exports.register = function (server, options, next) { // eslint-disable-line
   server.method('getAchievements', getAchievements, {
     cache: {
       cache: 'mongo',
       expiresIn: 6 * 10000, // 10 minutes
       generateTimeout: 40000,
       staleTimeout: 10000,
-      staleIn: 20000
-
-    }
-  })
+      staleIn: 20000,
+    },
+  });
 
   server.route({
     method: 'GET',
@@ -57,14 +54,13 @@ exports.register = function (server, options, next) {
       tags: ['api'],
       plugins: {
         'hapi-rate-limit': {
-          pathLimit: 50
-        }
+          pathLimit: 50,
+        },
       },
       validate: {
         params: {
           tag: Joi.string()
             .required()
-            // .regex(/^(?:[a-zA-Z\u00C0-\u017F0-9]{3,12}-[0-9]{4,},)?(?:[a-zA-Z\u00C0-\u017F0-9]{3,12}-[0-9]{4,})$/g)
             .description('the battle-tag of the user | "#" should be replaced by an "-"'),
           platform: Joi.string()
             .required()
@@ -75,30 +71,30 @@ exports.register = function (server, options, next) {
             .required()
             .insensitive()
             .valid(['eu', 'us', 'kr', 'cn', 'global'])
-            .description('the region the user live is in for example: eu')
-        }
+            .description('the region the user live is in for example: eu'),
+        },
       },
       description: 'Get the users achievements',
-      notes: 'Api is Case-sensitive !'
+      notes: 'Api is Case-sensitive !',
     },
-    handler: function (request, reply) {
+    handler: (request, reply) => {
       // https://playoverwatch.com/en-us/career/pc/eu/
-      const tag = encodeURIComponent(request.params.tag)
-      const region = encodeURIComponent(request.params.region)
-      const platform = encodeURIComponent(request.params.platform)
+      const tag = encodeURIComponent(request.params.tag);
+      const region = encodeURIComponent(request.params.region);
+      const platform = encodeURIComponent(request.params.platform);
 
       server.methods.getAchievements(tag, region, platform, (err, result) => {
         if (err) {
-          return reply(err)
+          return reply(err);
         }
 
-        reply(result)
-      })
-    }
-  })
-  return next()
-}
+        return reply(result);
+      });
+    },
+  });
+  return next();
+};
 
 exports.register.attributes = {
-  name: 'routes-achievements'
-}
+  name: 'routes-achievements',
+};

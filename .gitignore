@@ -13,3 +13,4 @@
 !favicon.ico
 !docker-compose.yml
 !Dockerfile
+!.eslintrc

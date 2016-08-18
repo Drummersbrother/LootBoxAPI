@@ -1,28 +1,27 @@
-const rp = require('request-promise')
-const Joi = require('joi')
+const rp = require('request-promise');
+const Joi = require('joi');
 
-const getPlatforms = function (tag, next) {
-  rp('https://playoverwatch.com/en-us/career/get-platforms/' + tag)
-    .then(function (htmlString) {
-      const profile = JSON.parse(htmlString)
-      return next(null, {profile})
-    })
-    .catch(function () {
-      return next(null, { 'statusCode': 404, 'error': 'Found no user with the BattleTag: ' + tag })
-    })
-}
+const getPlatforms = (tag, next) => { // eslint-disable-line
 
-exports.register = function (server, options, next) {
+  rp(`https://playoverwatch.com/en-us/career/get-platforms/${tag}`)
+    .then((htmlString) => {
+      const profile = JSON.parse(htmlString);
+      return next(null, { profile });
+    })
+    .catch(() => next(null, { statusCode: 404, error: `Found no user with the BattleTag: ${tag}` }));
+};
+
+exports.register = function (server, options, next) { // eslint-disable-line
+
   server.method('getPlatforms', getPlatforms, {
     cache: {
       cache: 'mongo',
       expiresIn: 6 * 10000, // 10 minutes
       generateTimeout: 40000,
       staleTimeout: 10000,
-      staleIn: 20000
-
-    }
-  })
+      staleIn: 20000,
+    },
+  });
 
   server.route({
     method: 'GET',
@@ -31,8 +30,8 @@ exports.register = function (server, options, next) {
       tags: ['api'],
       plugins: {
         'hapi-rate-limit': {
-          pathLimit: 50
-        }
+          pathLimit: 50,
+        },
       },
       validate: {
         params: {
@@ -49,28 +48,28 @@ exports.register = function (server, options, next) {
             .required()
             .insensitive()
             .valid(['eu', 'us', 'kr', 'cn', 'global'])
-            .description('the region the user live is in for example: eu')
-        }
+            .description('the region the user live is in for example: eu'),
+        },
       },
       description: 'Check if the user owns a copy for another platform',
-      notes: ' '
+      notes: ' ',
     },
-    handler: function (request, reply) {
+    handler: (request, reply) => {
       // https://playoverwatch.com/en-us/career/pc/eu/
-      const tag = encodeURIComponent(request.params.tag)
+      const tag = encodeURIComponent(request.params.tag);
 
       server.methods.getPlatforms(tag, (err, result) => {
         if (err) {
-          return reply(err)
+          return reply(err);
         }
 
-        reply(result)
-      })
-    }
-  })
-  return next()
-}
+        return reply(result);
+      });
+    },
+  });
+  return next();
+};
 
 exports.register.attributes = {
-  name: 'routes-get-platforms'
-}
+  name: 'routes-get-platforms',
+};
