@@ -8,7 +8,7 @@ const getallHeroes = function (tag, region, platform, mode, next) { // eslint-di
   const obj = {};
 
   if (platform === 'psn' || platform === 'xbl') {
-    url = `https://playoverwatch.com/en-us/career/${platform}/${region}/${tag}`;
+    url = `https://playoverwatch.com/en-us/career/${platform}/${tag}`;
   }
   rp(url)
     .then((htmlString) => {

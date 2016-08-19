@@ -6,7 +6,7 @@ const getAchievements = function (tag, region, platform, next) { // eslint-disab
 
   let url = `https://playoverwatch.com/en-us/career/${platform}/${region}/${tag}`;
   if (platform === 'psn' || platform === 'xbl') {
-    url = `https://playoverwatch.com/en-us/career/${platform}/${region}/${tag}`;
+    url = `https://playoverwatch.com/en-us/career/${platform}/${tag}`;
   }
 
   rp(url)
