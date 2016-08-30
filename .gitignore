@@ -6,6 +6,8 @@
 !routes/*
 !test/*
 !test/*
+!assets/*
+!assets
 
 !package.json
 !app.js
@@ -13,3 +15,4 @@
 !favicon.ico
 !docker-compose.yml
 !Dockerfile
+!.eslintrc

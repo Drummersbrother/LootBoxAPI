@@ -21,14 +21,23 @@ $ git clone https://gitlab.com/SingularityIO/LootBoxAPI.git api
 $ cd api
 $ docker-compose up -d
 ```
-
 ###  Donate
 If you like our project and want to support us feel free to donate us. So that our server costs get reduced 
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3SVVKGLWXRQFY)
 
+###  Projects that currently use our api:
+- [Stats for Overwatch | Android App](https://play.google.com/store/apps/details?id=com.mytech.OverwatchStats)
+- [overwatch-api | Python wrapper](https://github.com/anthok/overwatch-api)
+- [Lootbox-Api-Wrapper For Swift](https://github.com/roccoma504/Lootbox-Api-Wrapper)
+- [Hero Watch | IOS App](https://itunes.apple.com/us/app/hero-watch/id1142389475?ls=1&mt=8)
+- [Hero Watch | Discordbot](http://www.jmtk.co/#discordbot)
+
+
+
 ###  Guides
-[Styleguide](https://github.com/feross/standard)
+[Styleguide](https://github.com/airbnb/javascript)
+
 ###  Support
 In need of support? We're more than happy to help, you can join us on Discord, Teamspeak3, the Forums or via Skype / Reddit
 * Teamspeak3: ts3.lootbox.eu
@@ -44,11 +53,7 @@ In need of support? We're more than happy to help, you can join us on Discord, T
 * Chris of LootBox.eu
 * Jarva 
 
-
-### Changelog
-
 ### Todos
- - Add Code Comments
 
 License
 ----
