@@ -171,7 +171,6 @@ Glue.compose(manifest, options, (err, server) => {
       console.log('\x1b[36m', '╔══════════════════════════════════════════╗', '\x1b[0m');
       console.log('\x1b[36m', '║ LootBox Api - An unoffical Overwatch Api ║', '\x1b[0m');
       console.log('\x1b[36m', '║══════════════════════════════════════════║', '\x1b[0m');
-      console.log('\x1b[36m', `║ URL: ${server.info.uri}                  ║`, '\x1b[0m');
       console.log('\x1b[36m', '║                                          ║', '\x1b[0m');
       console.log('\x1b[36m', '╚══════════════════════════════════════════╝', '\x1b[0m');
     });

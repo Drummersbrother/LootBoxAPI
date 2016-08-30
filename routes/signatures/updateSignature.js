@@ -181,13 +181,13 @@ exports.register = function (server, options, next) { // eslint-disable-line
 
       const user = yield db.collection('signatures').findOne({ _id: new ObjectId(id) }, { images: 0 });
 
-      /* if (Object.prototype.hasOwnProperty.call(user, 'cacheTime')) {
+      if (Object.prototype.hasOwnProperty.call(user, 'cacheTime')) {
         const diff = moment().diff(user.cacheTime, 'h');
         if (diff < 1) {
           const obj = { info: "Signatured is cached for one hour and can't be updated now." };
       	   return promise.resolve(obj);
         }
-      }*/
+      }
 
       const data = yield promise.join(getProfileData(user), getHeroesProgressData(user));
 
