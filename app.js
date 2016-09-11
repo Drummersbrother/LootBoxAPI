@@ -41,7 +41,7 @@ const manifest = {
     },
   }, {
     host: hostUrl,
-    port: 9001,
+    port: 9004,
     labels: ['signatures'],
     routes: {
       cors: true,
@@ -119,6 +119,13 @@ const manifest = {
   }, {
     plugin: {
       register: './routes/api/get-platforms.js',
+    },
+    options: {
+      select: 'api',
+    },
+  },  {
+    plugin: {
+      register: './routes/api/signature.js',
     },
     options: {
       select: 'api',

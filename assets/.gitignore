@@ -4,8 +4,9 @@
 !backgrounds/*
 !backgrounds
 !heroes/*
-!stars
-!stars/*
+!ranks/*
+!ranks
+
 overwatch.ttf
 
 !.gitignore

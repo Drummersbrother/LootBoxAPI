@@ -22,6 +22,7 @@ const getProfile = function (tag, region, platform, next) { // eslint-disable-li
       let competitiveRankImg;
       let Star = '';
 
+
       const quickgamesWonElm = $('#quick-play td:contains("Games Won")').next().html();
       const quickgamesPlayedElm = $('#quick-play td:contains("Games Played")').next().html();
       const quicktimePlayedElm = $('#quick-play td:contains("Time Played")').next().html();
@@ -39,9 +40,12 @@ const getProfile = function (tag, region, platform, next) { // eslint-disable-li
         competitiveRank = $('.competitive-rank div').html();
       }
 
+
+
       if (quickgamesWonElm != null) {
         gamesWon.quick = quickgamesWonElm.trim().replace(/,/g, '');
       }
+
 
       if (quickgamesPlayedElm != null) {
         gamesPlayed.quick = quickgamesPlayedElm.trim().replace(/,/g, '');

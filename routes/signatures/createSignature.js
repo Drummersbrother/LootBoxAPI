@@ -1,7 +1,22 @@
 const MongoClient = require('mongodb').MongoClient;
 const promise = require('bluebird');
+const rp = require('request-promise');
+
 
 exports.register = function (server, options, next) { // eslint-disable-line
+  const checkIfItIsValidTag = (tag) =>{ // eslint-disable-line
+    return new Promise((resolve, reject) => {
+      rp(`https://playoverwatch.com/en-us/search/account-by-name/${tag}`)
+        .then((html) => {
+          if (html !== "[]") {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch(() => {reject(`Your BattleTag: "${inputTag}" could not be found. Check for mistakes and the capitalization.`);})
+    });
+  };
   const createSignature = function(inputTag, inputRegion, inputPlatform, next) { // eslint-disable-line
 
     promise.coroutine(function *() {  // eslint-disable-line
@@ -17,16 +32,21 @@ exports.register = function (server, options, next) { // eslint-disable-line
       });
       const user = yield db.collection('signatures').findOne({ tag: inputTag });
       if (user === null) {
-        const field = yield db.collection('signatures').insert({ tag: inputTag, additionalInfo: { region: inputRegion, platform: inputPlatform } });
-        if (field !== null) {
-          return next(null, { info: `Signature for "${inputTag}" got created.`, url: `quick/${field.insertedIds[1]}.png` });
+        const isValid = yield checkIfItIsValidTag(inputTag);
+        console.log(isValid);
+        if (isValid) {
+          const field = yield db.collection('signatures').insert({ tag: inputTag, additionalInfo: { region: inputRegion, platform: inputPlatform } });
+          if (field !== null) {
+            return next(null, { info: `Signature for "${inputTag}" got created.`, url:{ quick: `quick/${field.insertedIds[1]}.png`, comp: `comp/${field.insertedIds[1]}.png` } });
+          }
+        } else {
+          return next(null, { error: `Your BattleTag:"${inputTag}" could not be found. Check for mistakes and the capitalization.`});
         }
       } else {
-        console.log(user);
-        return next(null, { info: `Signature for "${inputTag}" already exists.`, url: `quick/${user._id}.png` }); // eslint-disable-line
+        return next(null, { info: `Signature for "${inputTag}" already exists.`, url:{ quick: `quick/${user._id}.png`, comp: `comp/${user._id}.png` }}); // eslint-disable-line
       }
     })().catch((err) => {
-      console.log(err);
+      return next(null, { error: err }); // eslint-disable-line
     });
   };
 

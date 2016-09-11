@@ -54,15 +54,19 @@ exports.register = function (server, options, next) { // eslint-disable-line
       let background;
 
       if (json.level < 100) {
-        background = 'assets/backgrounds/extendednew.png';
+        background = 'assets/backgrounds/background_tier_0.png';
       } else if (json.level < 200) {
-        background = 'assets/backgrounds/extendednew.png';
+        background = 'assets/backgrounds/background_tier_1.png';
       } else if (json.level < 300) {
-        background = 'assets/backgrounds/extendednew.png';
+        background = 'assets/backgrounds/background_tier_2.png';
       } else if (json.level < 400) {
-        background = 'assets/backgrounds/extendednew.png';
+        background = 'assets/backgrounds/background_tier_3.png';
       } else if (json.level < 500) {
-        background = 'assets/backgrounds/extendednew.png';
+        background = 'assets/backgrounds/background_tier_4.png';
+      } else if (json.level < 600) {
+        background = 'assets/backgrounds/background_tier_5.png';
+      } else if (json.level < 600) {
+        background = 'assets/backgrounds/background_tier_6.png';
       }
 
       const backgroundImage = gm();
@@ -94,17 +98,23 @@ exports.register = function (server, options, next) { // eslint-disable-line
         manipulator.font('assets/overwatch.ttf', 12);
         manipulator.fill('#ffd800');
         manipulator.fontSize('29');
-        manipulator.drawText(175, -30, json.username.toUpperCase(), 'West');
+        manipulator.drawText(175, -30, `${json.username.toUpperCase()} | Quick-Play`, 'West');
         manipulator.fill('#fff');
 
         if (json.level < 100) {
           manipulator.drawText(23, -23, json.level, 'East');
         } else {
-          manipulator.drawText(40, -25, json.level, 'East');
+          manipulator.drawText(17, -23, json.level, 'East');
         }
+
         manipulator.fontSize('17');
 
-        manipulator.drawText(165, 0, `Matches: ${json.games.quick.played}`, 'West');
+        //manipulator.drawText(165, 0, `Matches: ${json.games.quick.played}`, 'West');
+        manipulator.drawText(165, 0, `Matches: disabled`, 'West');
+        if(json.competitive.rank != null){
+          manipulator.drawText(74, -7,`${json.competitive.rank}`, 'East');
+        }
+
         manipulator.drawText(165, 20, `Time played: ${json.playtime.quick}`, 'West');
         manipulator.drawText(165, 40, `Games Won: ${json.games.quick.wins}`, 'West');
 
@@ -136,10 +146,21 @@ exports.register = function (server, options, next) { // eslint-disable-line
         manipulator.font('assets/overwatch.ttf', 12);
         manipulator.fill('#ffd800');
         manipulator.fontSize('29');
-        manipulator.drawText(175, -30, json.username.toUpperCase(), 'West');
+        manipulator.drawText(175, -30, `${json.username.toUpperCase()} | Competitive`, 'West');
+
         manipulator.fill('#fff');
 
-        manipulator.fontSize('18');
+
+        if (json.level < 100) {
+          manipulator.drawText(23, -23, json.level, 'East');
+        } else {
+          manipulator.drawText(17, -23, json.level, 'East');
+        }
+
+        manipulator.fontSize('17');
+        if(json.competitive.rank != null){
+          manipulator.drawText(74, -7,`${json.competitive.rank}`, 'East');
+        }
         manipulator.drawText(165, 0, `Matches: ${json.games.competitive.played}`, 'West');
         manipulator.drawText(165, 40, `Games Won: ${json.games.competitive.wins}`, 'West');
         manipulator.drawText(165, 20, `Time played: ${json.playtime.competitive}`, 'West');
@@ -185,34 +206,44 @@ exports.register = function (server, options, next) { // eslint-disable-line
         const diff = moment().diff(user.cacheTime, 'h');
         if (diff < 1) {
           const obj = { info: "Signatured is cached for one hour and can't be updated now." };
-      	   return promise.resolve(obj);
+           return promise.resolve(obj);
         }
       }
 
       const data = yield promise.join(getProfileData(user), getHeroesProgressData(user));
 
-      const starFileName = data[0].data.avatar.substr(48, 110).replace(/ /g, '');
+      //const starFileName = data[0].data.avatar.substr(48, 110).replace(/ /g, '');
       const avatarFileName = data[0].data.avatar.substr(48, 110).replace(/ /g, '');
       const heroFileName = data[1].image.substr(52, 110).replace(/ /g, '');
+      let rankFileName;
+
+      if(data[0].data.competitive.rank_img != null){
+        rankFileName = data[0].data.competitive.rank_img.substr(51, 110);
+      }
+
 
       let downloadImageArray = [ // eslint-disable-line
         downloadImage(data[0].data.avatar, 'avatars', avatarFileName, 94, 94),
         downloadImage(data[1].image, 'heroes', heroFileName, 26, 26),
       ];
 
-      if (data[0].data.star.length !== 0) {
-        downloadImageArray.push(downloadImage(data[0].data.star, 'stars', starFileName, 100, 100));
+      if(data[0].data.competitive.rank_img != null){
+        downloadImageArray.push(downloadImage(data[0].data.competitive.rank_img, 'ranks', rankFileName, 30, 30));
       }
+
+      /*if (data[0].data.star.length !== 0) {
+        downloadImageArray.push(downloadImage(data[0].data.star, 'stars', starFileName, 100, 100));
+      }*/
 
       const images = yield promise.all(downloadImageArray);
 
       let imgArray = [ // eslint-disable-line
-        { image: images[0], position: '+20+10' }, // avatar
+        { image: images[0], position: '+20+11' }, // avatar
         { image: images[1], position: '+144+16' }, // hero
       ];
 
       if (images.length === 3) {
-        imgArray.push({ image: images[2], position: '+426+40' });
+        imgArray.push({ image: images[2], position: '+406+15' });
       }
 
       const background = yield createBackgroundImage(data[0], imgArray);

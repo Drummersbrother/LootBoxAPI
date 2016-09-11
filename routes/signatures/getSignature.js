@@ -46,6 +46,9 @@ exports.register = function (server, options, next) { // eslint-disable-line
         const img = new Buffer(user.images.quickplayImage, 'base64');
         return next(null, { buffer: img, length: img.length });
       }
+      else {
+        return next(null, { error: `Your mode:"${mode}" does not exists. Choose either comp or quick.` });
+      }
     })().catch(() => { // eslint-disable-line
       return next(null, { error: `No signature found with the id: "${id}" found.` });
     });
