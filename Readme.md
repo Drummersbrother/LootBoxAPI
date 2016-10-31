@@ -36,12 +36,9 @@ If you like our project and want to support us feel free to donate us. So that o
 [Styleguide](https://github.com/airbnb/javascript)
 
 ###  Support
-In need of support? We're more than happy to help, you can join us on Discord, Teamspeak3, the Forums or via Skype / Reddit
-* Teamspeak3: ts3.lootbox.eu
+In need of support? We're more than happy to help, you can join us on Discord.
 * Discord: https://discord.gg/dRj227b
-* Forums: https://community.lootbox.eu
-* Skype: iwantyourcook1e
-* Reddit: https://www.reddit.com/user/isyxo/
+
 
 ###  Credits
 * TechFreak of LootBox.eu 
