@@ -4,6 +4,10 @@
 !.gitignore
 !routes/
 !routes/*
+!routes/api
+!routes/api/*
+!routes/signatures
+!routes/signatures*
 !test/*
 !test/*
 !assets/*
