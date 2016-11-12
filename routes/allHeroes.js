@@ -66,7 +66,7 @@ exports.register = function (server, options, next) { // eslint-disable-line
           mode: Joi.string()
             .required()
             .insensitive()
-            .valid(['competitive-play', 'quick-play'])
+            .valid(['competitive', 'quickplay'])
             .description('Either competitive-play or quick-play'),
         },
       },

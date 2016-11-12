@@ -22,13 +22,13 @@ const getProfile = function (tag, region, platform, next) { // eslint-disable-li
       let competitiveRankImg;
       let Star = '';
 
-      const quickgamesWonElm = $('#quick-play td:contains("Games Won")').next().html();
-      const quickgamesPlayedElm = $('#quick-play td:contains("Games Played")').next().html();
-      const quicktimePlayedElm = $('#quick-play td:contains("Time Played")').next().html();
+      const quickgamesWonElm = $('#quickplay td:contains("Games Won")').next().html();
+      const quickgamesPlayedElm = $('#quickplay td:contains("Games Played")').next().html();
+      const quicktimePlayedElm = $('#quickplay td:contains("Time Played")').next().html();
 
-      const compgamesWonElm = $('#competitive-play td:contains("Games Won")').next().html();
-      const compgamesPlayedElm = $('#competitive-play td:contains("Games Played")').next().html();
-      const comptimePlayedElm = $('#competitive-play td:contains("Time Played")').next().html();
+      const compgamesWonElm = $('#competitive td:contains("Games Won")').next().html();
+      const compgamesPlayedElm = $('#competitive td:contains("Games Played")').next().html();
+      const comptimePlayedElm = $('#competitive td:contains("Time Played")').next().html();
       const competitiveRankElm = $('.competitive-rank');
 
       const LevelFrame = $('.player-level').attr('style').slice(21, 109);

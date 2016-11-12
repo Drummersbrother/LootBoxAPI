@@ -18,6 +18,9 @@ const getHeroesProgress = function (tag, region, platform, mode, next) { // esli
       const percentage = [];
       const images = [];
 
+
+      console.log($(`#${mode} .hero-comparison-section`).html());
+
       $(`#${mode} .hero-comparison-section .is-active > div img`).each((i, el) => {
         const image = $(el).attr('src');
         images[i] = image;
@@ -84,7 +87,7 @@ exports.register = function (server, options, next) { // eslint-disable-line
           mode: Joi.string()
             .required()
             .insensitive()
-            .valid(['competitive-play', 'quick-play'])
+            .valid(['competitive', 'quickplay'])
             .description('Either competitive-play or quick-play'),
         },
       },
