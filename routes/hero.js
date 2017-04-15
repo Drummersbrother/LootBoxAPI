@@ -88,6 +88,9 @@ const getHeroes = function (tag, region, platform, mode, heroesStr, next) { // e
           case 'Mei':
             id = '0x02E00000000000DD';
             break;
+          case 'Sombra':        
+            id = "0x02E000000000012E";           
+            break;
         }
 
         heroIds.push({
